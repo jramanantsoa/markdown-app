@@ -1,6 +1,8 @@
 import './App.css';
 import { Component } from 'react';
 import { sampleText } from './sampleText'
+import marked from 'marked'
+import { render } from 'react-dom';
 
 class App extends Component{
   state = {
@@ -10,6 +12,11 @@ class App extends Component{
   handleChange = event => {
     const text = event.target.value
     this.setState({ text })
+  }
+
+  renderText = text => {
+    const __html = marked(text,{ sanitize: true })
+    return {__html}
   }
   render() {
     return(
@@ -24,7 +31,8 @@ class App extends Component{
             />
           </div>
           <div className='col-sm-6'>
-            { this.state.text }
+            <div dangerouslySetInnerHTML={this.renderText(this.state.text)}>
+            </div>
           </div>
         </div>
       </div>
