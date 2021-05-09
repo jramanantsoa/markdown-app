@@ -1,12 +1,26 @@
 import './App.css';
-import { Component } from 'react';
+import { Component, Fragment } from 'react'
 import { sampleText } from './sampleText'
 import marked from 'marked'
-import { render } from 'react-dom';
 
 class App extends Component{
   state = {
     text:sampleText
+  }
+
+  componentDidMount () {
+    const text = localStorage.getItem('text')
+    if (text){
+      this.setState({ text })
+    }
+    else{
+      this.setState({text:sampleText})
+    }
+    
+  }
+  componentDidUpdate(){
+    const text = this.state.text
+    localStorage.setItem('text',text)
   }
 
   handleChange = event => {
@@ -21,6 +35,9 @@ class App extends Component{
   render() {
     return(
       <div className='container'>
+        <nav className="navbar navbar-expand-lg navbar-dark bg-primary">
+          <a className="navbar-brand" href="#">Editeur de Markdown (React.js)</a>
+        </nav>
         <div className = 'row'>
           <div className='col-sm-6'>
             <textarea
